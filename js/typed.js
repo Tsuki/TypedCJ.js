@@ -181,7 +181,6 @@
             // can't be global since number changes each time loop is executed
             var humanize = Math.round(Math.random() * (100 - 30)) + this.typeSpeed;
             var self = this;
-
             // ------------- optional ------------- //
             // backpaces a certain string faster
             // ------------------------------------ //
@@ -260,9 +259,9 @@
                         // curString: arg, self.el.html: original text inside element
                         var nextString = curString.substr(0, curStrPos + 1);
                         if (self.cangjie[nextString.slice(-1)] != undefined) {
-                            console.log(self.convertToChar(self.cangjie[nextString.slice(-1)]));
-                            // console.log(curString.substr(0, curStrPos) + self.cangjie[nextString.split(-1)]);
-                            // self.typechar(curString.substr(0, curStrPos) + self.cangjie[nextString.split(-1)], curStrPos);
+                            var char = self.convertToChar(self.cangjie[nextString.slice(-1)]);
+                            console.log(char);
+                            self.typechar(nextString,char,0)
                         }
                         if (self.attr) {
                             self.el.attr(self.attr, nextString);
@@ -287,96 +286,29 @@
                 // humanized value for typing
             }, humanize);
         },
-        typechar: function (curString, curStrPos) {
+        typechar: function (curString, subString, curStrPos) {
             // exit when stopped
-            if (this.stop === true) {
+            if(curStrPos === subString.length)
                 return;
-            }
-
-            // varying values for setTimeout during typing
-            // can't be global since number changes each time loop is executed
             var humanize = Math.round(Math.random() * (1000 - 30)) + this.typeSpeed;
             var self = this;
-
-            // ------------- optional ------------- //
-            // backpaces a certain string faster
-            // ------------------------------------ //
-            // if (self.arrayPos == 1){
-            //  self.backDelay = 50;
-            // }
-            // else{ self.backDelay = 500; }
-
-            // contain typing function in a timeout humanize'd delay
             self.timeout = setTimeout(function () {
-                // check for an escape character before a pause value
-                // format: \^\d+ .. eg: ^1000 .. should be able to print the ^ too using ^^
-                // single ^ are removed from string
-                var charPause = 0;
-                var substr = curString.substr(curStrPos);
-                if (substr.charAt(0) === '^') {
-                    var skip = 1; // skip atleast 1
-                    if (/^\^\d+/.test(substr)) {
-                        substr = /\d+/.exec(substr)[0];
-                        skip += substr.length;
-                        charPause = parseInt(substr);
-                    }
-
-                    // strip out the escape character and pause value so they're not printed
-                    curString = curString.substring(0, curStrPos) + curString.substring(curStrPos + skip);
-                }
-
-                if (self.contentType === 'html') {
-                    // skip over html tags while typing
-                    var curChar = curString.substr(curStrPos).charAt(0)
-                    if (curChar === '<' || curChar === '&') {
-                        var tag = '';
-                        var endTag = '';
-                        if (curChar === '<') {
-                            endTag = '>'
-                        } else {
-                            endTag = ';'
-                        }
-                        while (curString.substr(curStrPos).charAt(0) !== endTag) {
-                            tag += curString.substr(curStrPos).charAt(0);
-                            curStrPos++;
-                        }
-                        curStrPos++;
-                        tag += endTag;
-                    }
-                }
-
-                // timeout for any pause after a character
-                self.timeout = setTimeout(function () {
-
-
-                    /* call before functions if applicable */
-                    if (curStrPos === 0)
-                        self.options.preStringTyped(self.arrayPos);
-
-                    // start typing each new char into existing string
-                    // curString: arg, self.el.html: original text inside element
-                    var nextString = curString.substr(0, curStrPos + 1);
-                    if (self.attr) {
-                        self.el.attr(self.attr, nextString);
+                // if (curStrPos === 0)
+                //     self.options.preStringTyped(self.arrayPos);
+                var nextString = subString.substr(0, curStrPos + 1);
+                if (self.attr) {
+                    self.el.attr(self.attr,curString+nextString);
+                } else {
+                    if (self.isInput) {
+                        self.el.val(curString+nextString);
+                    } else if (self.contentType === 'html') {
+                        self.el.html(curString+nextString);
                     } else {
-                        if (self.isInput) {
-                            self.el.val(nextString);
-                        } else if (self.contentType === 'html') {
-                            self.el.html(nextString);
-                        } else {
-                            self.el.text(nextString);
-                        }
+                        self.el.text(curString+nextString);
                     }
-
-                    // add characters one by one
-                    curStrPos++;
-                    // loop the function
-                    self.typechar(curString, curStrPos);
-
-                    // end of character pause
-                }, charPause);
-
-                // humanized value for typing
+                }
+                curStrPos++;
+                self.typechar(curString, subString, curStrPos);
             }, humanize);
         }
         ,
@@ -388,7 +320,7 @@
 
             // varying values for setTimeout during typing
             // can't be global since number changes each time loop is executed
-            var humanize = Math.round(Math.random() * (100 - 30)) + this.backSpeed;
+            var humanize = 100
             var self = this;
 
             self.timeout = setTimeout(function () {
@@ -513,9 +445,11 @@
         , convertToChar: function (string) {
             var self = this;
             var out = [];
-            if (!string) { return; }
-            string.split("").forEach(function(l){
-                out.push( self.letter[l] || l );
+            if (!string) {
+                return;
+            }
+            string.split("").forEach(function (l) {
+                out.push(self.letter[l] || l);
             });
             return out.join("");
         }
