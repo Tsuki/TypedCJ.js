@@ -1,14 +1,9 @@
 TypedCJ.js
 ========
 
-[View the live demo](http://www.mattboldt.com/demos/typed-js/) | [Go to my site, mattboldt.com](http://www.mattboldt.com)
+[View the live demo](http://blog.sukitsuki.com/TypedCJ.js/) | [Go to my blog, blog.sukitsuki.com](http://blog.sukitsuki.com/)
 
-Typed.js is a jQuery plugin that types. Enter in any string, and watch it type at the speed you've set,
-backspace what it's typed, and begin a new sentence for however many strings you've set.
-
----
-
-Looking for some custom use cases for Typed.js? [Check out the wiki](https://github.com/mattboldt/typed.js/wiki)
+TypedCJ.js 是對Typed.js 作出條改 加入倉頡輸入法的效果。
 
 ---
 
@@ -18,7 +13,7 @@ This is really all you need to get going.
 
 ~~~ javascript
 <script src="jquery.js"></script>
-<script src="typed.js"></script>
+<script src="typedCJ.js"></script>
 <script>
 	$(function(){
 		$(".element").typed({
@@ -32,3 +27,4 @@ This is really all you need to get going.
 <span class="element"></span>
 ~~~
 
+------------

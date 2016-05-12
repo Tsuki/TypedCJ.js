@@ -1,15 +1,16 @@
 {
-  "name": "typed.js",
-  "version": "1.1.1",
-  "homepage": "https://github.com/mattboldt/typed.js",
+  "name": "typedCj.js",
+  "version": "1.0.0",
+  "homepage": "https://github.com/Tsuki/TypedCJ.js",
   "authors": [
-    "Matt Boldt <me@mattboldt.com>"
+    "Tsuki <i@sukitsuki.com>"
   ],
-  "description": "A jQuery typing animation script",
-  "main": "dist/typed.min.js",
+  "description": "A jQuery typing animation script with Cang Jie input",
+  "main": "dist/typedCJ.min.js",
   "keywords": [
     "typed",
-    "animation"
+    "animation",
+    "Cang Jie"
   ],
   "devDependencies": {
     "gulp": "^3.8.10",

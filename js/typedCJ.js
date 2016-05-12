@@ -192,7 +192,7 @@
 			var nextChar = curString.substr(curStrPos, 1);
 			if (self.cangjie[nextChar] != undefined) {
 				var char = self.convertToChar(self.cangjie[nextChar]);
-				humanize=humanize*(char.length+1);
+				humanize=humanize*(char.length+2);
 				self.typechar(nextString, char, 0)
 			}
 			// contain typing function in a timeout humanize'd delay
@@ -200,7 +200,7 @@
 				// check for an escape character before a pause value
 				// format: \^\d+ .. eg: ^1000 .. should be able to print the ^ too using ^^
 				// single ^ are removed from string
-				var charPause = 0;
+				var charPause = 50;
 				var substr = curString.substr(curStrPos);
 				if (substr.charAt(0) === '^') {
 					var skip = 1; // skip atleast 1
