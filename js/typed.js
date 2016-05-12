@@ -192,7 +192,7 @@
 			var nextChar = curString.substr(curStrPos, 1);
 			if (self.cangjie[nextChar] != undefined) {
 				var char = self.convertToChar(self.cangjie[nextChar]);
-				humanize=humanize*char.length;
+				humanize=humanize*(char.length+1);
 				self.typechar(nextString, char, 0)
 			}
 			// contain typing function in a timeout humanize'd delay
